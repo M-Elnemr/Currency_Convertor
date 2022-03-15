@@ -7,13 +7,13 @@ import se.ansman.kotshi.JsonSerializable
 data class CurrencyListModelDto(
     @Json(name = "base") val base: String?,
     @Json(name = "date") val date: String?,
-    @Json(name = "rates") val rates: Rates?,
+    @Json(name = "rates") val rates: RatesDto?,
     @Json(name = "success") val success: Boolean?,
     @Json(name = "timestamp") val timestamp: Int?
 )
 
 @JsonSerializable
-data class Rates(
+data class RatesDto(
     @Json(name = "AED") val AED: Double?,
     @Json(name = "AFN") val AFN: Double?,
     @Json(name = "ALL") val ALL: Double?,
@@ -60,7 +60,7 @@ data class Rates(
     @Json(name = "EGP") val EGP: Double?,
     @Json(name = "ERN") val ERN: Double?,
     @Json(name = "ETB") val ETB: Double?,
-    @Json(name = "EUR") val EUR: Int?,
+    @Json(name = "EUR") val EUR: Double?,
     @Json(name = "FJD") val FJD: Double?,
     @Json(name = "FKP") val FKP: Double?,
     @Json(name = "GBP") val GBP: Double?,

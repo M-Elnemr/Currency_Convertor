@@ -5,7 +5,7 @@ import com.a1softech.currency.data.repository.datasource.LocalDataSource
 import com.a1softech.currency.data.repository.datasource.LocalDataSourceImpl
 import com.a1softech.currency.data.repository.datasource.RemoteDataSource
 import com.a1softech.currency.data.repository.datasource.RemoteDataSourceImpl
-import com.a1softech.currency.domain.Repository
+import com.a1softech.currency.domain.repository.Repository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,6 +1,7 @@
 package com.a1softech.currency.presentation.base.usecase
 
-import com.a1softech.currency.domain.Repository
+import com.a1softech.currency.data.mapper.Mapper
+import com.a1softech.currency.domain.repository.Repository
 import com.a1softech.currency.presentation.base.NetworkResult
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BufferOverflow
@@ -11,16 +12,19 @@ import retrofit2.Response
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-abstract class BaseUseCase<T, Params>(
+abstract class BaseUseCase<D, T, Params>(
     // config the sharedflow to works the same as the stateflow - so we can use it without init value
     protected val stateFlow: MutableSharedFlow<T> = MutableSharedFlow(
         replay = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
-) : UseCase<T, Params> {
+) : UseCase<D, T, Params> {
 
     @Inject
     lateinit var repo: Repository
+
+    @Inject
+    lateinit var mapper: Mapper
 
     init {
         // config the sharedflow to works the same as the stateflow - so we can use it without init value
@@ -45,7 +49,7 @@ abstract class BaseUseCase<T, Params>(
         }
     }
 
-    protected fun <T> startAsync(block: suspend () -> T): Deferred<T> =
+    protected fun <A> startAsync(block: suspend () -> A): Deferred<A> =
         coroutineIOScope.async { block() }
 
     fun clear() {
@@ -54,21 +58,17 @@ abstract class BaseUseCase<T, Params>(
 
     override fun getStateFlow(): SharedFlow<T> = stateFlow
 
-    //for network response (with corotinese) NOT local response
-    fun <T> handleResponse(response: Response<T>): NetworkResult<T> {
+    //for network response (with coroutines) NOT local response
+    fun <K> handleResponse(response: Response<K>): NetworkResult<K> {
         return when {
-            response.code() == 200 && response.isSuccessful && response.body() == null -> {
-                NetworkResult.Empty()
-            }
-            response.code() == 200 && response.isSuccessful -> {
-                NetworkResult.Success(response.body()!!)
-            }
-            response.message().toString().contains("timeout") -> {
-                NetworkResult.Error("TimeOut")
-            }
-            else -> {
-                NetworkResult.Error(response.message())
-            }
+            response.code() == 200 && response.isSuccessful && response.body() == null -> NetworkResult.Empty()
+
+            response.code() == 200 && response.isSuccessful -> NetworkResult.Success(response.body()!!)
+
+            response.message().contains("timeout") -> NetworkResult.Error("TimeOut")
+
+            else -> NetworkResult.Error(response.message())
+
         }
     }
 

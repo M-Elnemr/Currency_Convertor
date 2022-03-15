@@ -1,5 +1,6 @@
 package com.a1softech.currency.presentation.base.usecase
 
+import com.a1softech.currency.domain.Repository
 import com.a1softech.currency.presentation.base.NetworkResult
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BufferOverflow
@@ -7,6 +8,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import retrofit2.Response
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 abstract class BaseUseCase<T, Params>(
@@ -17,7 +19,11 @@ abstract class BaseUseCase<T, Params>(
     )
 ) : UseCase<T, Params> {
 
+    @Inject
+    lateinit var repo: Repository
+
     init {
+        // config the sharedflow to works the same as the stateflow - so we can use it without init value
         stateFlow.distinctUntilChanged()
     }
 

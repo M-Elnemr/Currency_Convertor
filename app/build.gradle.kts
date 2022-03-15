@@ -5,13 +5,14 @@ plugins {
     id ("kotlin-android-extensions")
     id ("androidx.navigation.safeargs.kotlin")
     id ("dagger.hilt.android.plugin")
+    id ("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
     compileSdk = ConfigData.compileSdkVersion
 
     defaultConfig {
-        applicationId = "com.a1softech.currency"
+        applicationId = "com.shoptop.dashboard"
         minSdk = ConfigData.minSdkVersion
         targetSdk = ConfigData.targetSdkVersion
         versionCode = ConfigData.versionCode
@@ -23,7 +24,7 @@ android {
             useSupportLibrary = true
         }
 
-//        buildConfigField("String", "BASE_URL", "")
+//        buildConfigField("String", "BASE_URL", """http://192.168.1.4:8000""")
 
     }
 
@@ -157,8 +158,5 @@ dependencies {
 
     // MultiSelectSpinner
     implementation(Libs.multiSelectSpinner)
-
-    // Dexter
-    implementation(Libs.dexter)
 
 }

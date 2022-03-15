@@ -72,6 +72,7 @@ dependencies {
     implementation(Libs.app_compat)
     implementation(Libs.material)
     implementation(Libs.legacy_support)
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
 
     // Test
     testImplementation(TestLibs.junit)

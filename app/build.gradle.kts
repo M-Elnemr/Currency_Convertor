@@ -12,7 +12,7 @@ android {
     compileSdk = ConfigData.compileSdkVersion
 
     defaultConfig {
-        applicationId = "com.shoptop.dashboard"
+        applicationId = "com.a1softech.currency"
         minSdk = ConfigData.minSdkVersion
         targetSdk = ConfigData.targetSdkVersion
         versionCode = ConfigData.versionCode

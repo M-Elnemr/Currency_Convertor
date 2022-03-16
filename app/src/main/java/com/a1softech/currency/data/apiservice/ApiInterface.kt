@@ -8,7 +8,7 @@ import retrofit2.http.QueryMap
 
 interface ApiInterface {
 
-    @GET("latest")
+    @GET("api/latest")
     suspend fun convertCurrency(
         @Query("access_key") access_key: String
     ): Response<CurrencyListModelDto>

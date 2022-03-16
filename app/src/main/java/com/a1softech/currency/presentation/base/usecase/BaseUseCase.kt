@@ -26,6 +26,7 @@ abstract class BaseUseCase<D, T, Params>(
     @Inject
     lateinit var mapper: Mapper
 
+
     init {
         // config the sharedflow to works the same as the stateflow - so we can use it without init value
         stateFlow.distinctUntilChanged()
@@ -42,7 +43,7 @@ abstract class BaseUseCase<D, T, Params>(
         get() = parentJob + mainDispatcher
 
     operator fun invoke(
-        params: Params?
+        params: Params? = null
     ) {
         launch(backgroundIODispatcher) {
             execute(params)

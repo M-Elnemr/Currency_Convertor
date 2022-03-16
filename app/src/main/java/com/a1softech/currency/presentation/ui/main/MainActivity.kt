@@ -5,7 +5,9 @@ import androidx.navigation.*
 import com.a1softech.currency.R
 import com.a1softech.currency.databinding.ActivityMainBinding
 import com.a1softech.currency.presentation.base.view.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity(override val layoutResourceId: Int = R.layout.activity_main) :
     BaseActivity<ActivityMainBinding>() {
 

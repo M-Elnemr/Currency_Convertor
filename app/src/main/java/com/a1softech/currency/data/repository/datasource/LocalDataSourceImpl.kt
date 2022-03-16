@@ -1,4 +1,6 @@
 package com.a1softech.currency.data.repository.datasource
 
-class LocalDataSourceImpl : LocalDataSource {
+import javax.inject.Inject
+
+class LocalDataSourceImpl @Inject constructor() : LocalDataSource {
 }

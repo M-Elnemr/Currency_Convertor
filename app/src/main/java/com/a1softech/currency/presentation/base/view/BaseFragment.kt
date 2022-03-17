@@ -1,6 +1,5 @@
 package com.a1softech.currency.presentation.base.view
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.*
 import androidx.annotation.LayoutRes
@@ -13,12 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.a1softech.currency.R
 
 abstract class BaseFragment<in T> : Fragment() where T : ViewDataBinding {
-    lateinit var dialog: Dialog
-
     @get:LayoutRes
     protected abstract val layoutResourceLayout: Int
 
     lateinit var rootView: View
+
     val params: HashMap<String, String> = hashMapOf()
 
     abstract fun onFragmentCreated(dataBinder: T)

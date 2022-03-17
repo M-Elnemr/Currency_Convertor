@@ -66,9 +66,7 @@ abstract class BaseUseCase<D, T, Params>(
 
             response.code() == 200 && response.isSuccessful -> NetworkResult.Success(response.body()!!)
 
-            response.message().contains("timeout") -> NetworkResult.Error("TimeOut")
-
-            else -> NetworkResult.Error(response.message())
+            else -> NetworkResult.ServerError(response.message())
 
         }
     }

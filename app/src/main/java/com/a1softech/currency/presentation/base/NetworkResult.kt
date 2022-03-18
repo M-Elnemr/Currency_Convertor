@@ -9,5 +9,4 @@ sealed class NetworkResult<T>(
     class ServerError<T>(message: String?, response: T? = null): NetworkResult<T>(response, message)
     class NetworkError<T>(message: String?, response: T? = null): NetworkResult<T>(response, message)
     class Loading<T>: NetworkResult<T>()
-    class Empty<T>: NetworkResult<T>()
 }

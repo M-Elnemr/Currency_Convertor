@@ -5,6 +5,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.a1softech.currency.R
+import com.a1softech.currency.data.database.history.HistoryEntity
 import com.a1softech.currency.databinding.FragmentConverterBinding
 import com.a1softech.currency.domain.model.CurrencyListModel
 import com.a1softech.currency.presentation.base.NetworkResult
@@ -15,6 +16,8 @@ import com.a1softech.currency.presentation.util.Constants
 import com.a1softech.currency.presentation.util.MainBindingAdapter.Companion.atIndex
 import com.a1softech.currency.presentation.util.MainBindingAdapter.Companion.setItems
 import com.a1softech.currency.presentation.util.UiEvent
+import com.a1softech.currency.presentation.util.getTimeInMills
+import com.a1softech.currency.presentation.util.getTodayDate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_converter.view.*
 import kotlinx.coroutines.flow.buffer
@@ -76,7 +79,18 @@ class ConverterFragment(override val layoutResourceLayout: Int = R.layout.fragme
         val convertedValue = String.format("%,.5f", toRate / fromRate * handleAmount(amount))
         rootView.et_converted.setText(convertedValue)
 
-        //TODO -- save that record to the Local DB with the current date
+
+        saveCurrencyRecordToDataBase(convertedValue)
+    }
+
+    private fun saveCurrencyRecordToDataBase(convertedValue: String) {
+
+        viewModel.saveCurrencyConvertRecord(
+            HistoryEntity(
+                fromCurrencyCode, toCurrencyCode, handleAmount(amount).toString(),
+                convertedValue, getTodayDate(), getTimeInMills()
+            )
+        )
     }
 
     private fun handleAmount(amount: String): Int {
@@ -103,10 +117,10 @@ class ConverterFragment(override val layoutResourceLayout: Int = R.layout.fragme
 
     private fun onCurrencyFetched(result: NetworkResult<CurrencyListModel>) {
         when (result) {
-            is NetworkResult.Empty -> UiEvent.ShowSnackBar("Empty Response")
             is NetworkResult.ServerError -> UiEvent.ShowSnackBar("Server Error - ${result.message}")
             is NetworkResult.NetworkError -> UiEvent.ShowSnackBar("Network Error - ${result.message}")
-            is NetworkResult.Loading -> {}
+            is NetworkResult.Loading -> {
+            }
             is NetworkResult.Success -> handleCurrencyResponse(result.data)
         }
     }

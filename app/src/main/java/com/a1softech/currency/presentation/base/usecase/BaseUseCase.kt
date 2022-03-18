@@ -12,13 +12,13 @@ import retrofit2.Response
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-abstract class BaseUseCase<D, T, Params>(
+abstract class BaseUseCase<T, Params>(
     // config the sharedflow to works the same as the stateflow - so we can use it without init value
     protected val stateFlow: MutableSharedFlow<T> = MutableSharedFlow(
         replay = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
-) : UseCase<D, T, Params> {
+) : UseCase<T, Params> {
 
     @Inject
     lateinit var repo: Repository
@@ -60,15 +60,15 @@ abstract class BaseUseCase<D, T, Params>(
     override fun getStateFlow(): SharedFlow<T> = stateFlow
 
     //for network response (with coroutines) NOT local response
-    fun <K> handleResponse(response: Response<K>): NetworkResult<K> {
-        return when {
-            response.code() == 200 && response.isSuccessful && response.body() == null -> NetworkResult.Empty()
-
-            response.code() == 200 && response.isSuccessful -> NetworkResult.Success(response.body()!!)
-
-            else -> NetworkResult.ServerError(response.message())
-
-        }
-    }
+//    fun <K> handleResponse(response: Response<K>): NetworkResult<K> {
+//        return when {
+//            response.code() == 200 && response.isSuccessful && response.body() == null -> NetworkResult.Empty()
+//
+//            response.code() == 200 && response.isSuccessful -> NetworkResult.Success(response.body()!!)
+//
+//            else -> NetworkResult.ServerError(response.message())
+//
+//        }
+//    }
 
 }

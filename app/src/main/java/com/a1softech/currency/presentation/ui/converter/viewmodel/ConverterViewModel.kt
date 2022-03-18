@@ -1,13 +1,13 @@
 package com.a1softech.currency.presentation.ui.converter.viewmodel
 
-import android.app.Application
 import androidx.lifecycle.viewModelScope
+import com.a1softech.currency.data.database.history.HistoryEntity
 import com.a1softech.currency.domain.model.CurrencyListModel
 import com.a1softech.currency.domain.usecase.FetchCurrencyListUseCase
+import com.a1softech.currency.domain.usecase.SaveCurrencyRecordUseCase
 import com.a1softech.currency.presentation.base.NetworkResult
 import com.a1softech.currency.presentation.base.viewmodel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,14 +16,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ConverterViewModel @Inject constructor(
-    private val fetchCurrencyListUseCase: FetchCurrencyListUseCase
+    private val fetchCurrencyListUseCase: FetchCurrencyListUseCase,
+    private val saveCurrencyRecordUseCase: SaveCurrencyRecordUseCase
 ) : BaseViewModel<ConverterState>() {
 
     init {
         viewModelScope.launch {
             fetchCurrencyListUseCase.getStateFlow().buffer().collect { onCurrencyStateChanged(it) }
         }
-
     }
 
     private fun onCurrencyStateChanged(result: NetworkResult<CurrencyListModel>) =
@@ -33,5 +33,8 @@ class ConverterViewModel @Inject constructor(
 
 
     fun fetchCurrencyList(access_key: String) = fetchCurrencyListUseCase.invoke(access_key)
+
+    fun saveCurrencyConvertRecord(historyEntity: HistoryEntity) =
+        saveCurrencyRecordUseCase.invoke(historyEntity)
 
 }

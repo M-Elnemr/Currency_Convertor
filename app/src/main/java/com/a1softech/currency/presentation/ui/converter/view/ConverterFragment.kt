@@ -4,10 +4,13 @@ import android.util.Log
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.a1softech.currency.R
 import com.a1softech.currency.data.database.history.HistoryEntity
 import com.a1softech.currency.databinding.FragmentConverterBinding
 import com.a1softech.currency.domain.model.CurrencyListModel
+import com.a1softech.currency.domain.model.CurrencyPopularModel
+import com.a1softech.currency.domain.model.PopularCurrency
 import com.a1softech.currency.presentation.base.NetworkResult
 import com.a1softech.currency.presentation.base.view.BaseFragment
 import com.a1softech.currency.presentation.ui.converter.viewmodel.ConverterState
@@ -33,9 +36,11 @@ class ConverterFragment(override val layoutResourceLayout: Int = R.layout.fragme
     private var fromCurrencyId: Int = 0
     private var toCurrencyId: Int = 0
     private var amount = "1"
+    private var convertedValue = ""
     private val currencyList: ArrayList<String> = arrayListOf()
     private val currencyListHashMap: HashMap<String, Double> = hashMapOf()
     private var currenciesSetInSpinner = false
+    private var isTextWatcherEnable = true
 
     override fun onFragmentCreated(dataBinder: FragmentConverterBinding) {
         viewModel.fetchCurrencyList(Constants.access_key)
@@ -44,6 +49,7 @@ class ConverterFragment(override val layoutResourceLayout: Int = R.layout.fragme
 
     private fun setViewsListener() {
         rootView.btn_swap.setOnClickListener { swapSpinnersValues() }
+        rootView.details_btn.setOnClickListener { navigateToDetailsFragment() }
 
         rootView.from_selector.setOnItemClickListener { adapterView, view, position, l ->
             fromCurrencyId = position
@@ -60,43 +66,20 @@ class ConverterFragment(override val layoutResourceLayout: Int = R.layout.fragme
         }
 
         rootView.et_amount.doAfterTextChanged {
-            amount = it.toString()
-            if (fromCurrencyCode != "" && toCurrencyCode != "")
-                countConvertedValue()
-        }
-    }
-
-    private fun countConvertedValue() {
-        var fromRate = 1.0
-        currencyListHashMap[fromCurrencyCode]?.let {
-            fromRate = it
-        }
-        var toRate = 1.0
-        currencyListHashMap[toCurrencyCode]?.let {
-            toRate = it
+            if (isTextWatcherEnable) {
+                amount = it.toString()
+                if (fromCurrencyCode != "" && toCurrencyCode != "")
+                    countConvertedValue()
+            } else isTextWatcherEnable = true
         }
 
-        val convertedValue = String.format("%,.5f", toRate / fromRate * handleAmount(amount))
-        rootView.et_converted.setText(convertedValue)
-
-
-        saveCurrencyRecordToDataBase(convertedValue)
-    }
-
-    private fun saveCurrencyRecordToDataBase(convertedValue: String) {
-
-        viewModel.saveCurrencyConvertRecord(
-            HistoryEntity(
-                fromCurrencyCode, toCurrencyCode, handleAmount(amount).toString(),
-                convertedValue, getTodayDate(), getTimeInMills()
-            )
-        )
-    }
-
-    private fun handleAmount(amount: String): Int {
-        return if (amount == "0" || amount.isEmpty())
-            1
-        else amount.toInt()
+        rootView.et_value.doAfterTextChanged {
+            if (isTextWatcherEnable) {
+                convertedValue = it.toString()
+                if (fromCurrencyCode != "" && toCurrencyCode != "")
+                    countAmount()
+            } else isTextWatcherEnable = true
+        }
     }
 
     override fun setUpViewModelStateObservers() {
@@ -146,6 +129,99 @@ class ConverterFragment(override val layoutResourceLayout: Int = R.layout.fragme
         reloadDataToSpinners()
         countConvertedValue()
     }
+
+    private fun navigateToDetailsFragment() {
+        if (fromCurrencyCode == "" || toCurrencyCode == "") {
+            UiEvent.ShowSnackBar("Pick a Currency first")
+            return
+        }
+        val currencyPopularModel =
+            CurrencyPopularModel(fromCurrencyCode, generatePopularCurrencyList())
+        val action = ConverterFragmentDirections.actionConverterFragmentToDetailsFragment(
+            currencyPopularModel
+        )
+
+        findNavController().navigate(action)
+    }
+
+    private fun generatePopularCurrencyList(): ArrayList<PopularCurrency> {
+        var isCurrencyDuplicated = false
+        val popularCurrencyCodeList = arrayListOf(
+            "USD", "EUR", "JPY", "GBP", "AUD", "CAD", "CHF", "CNH", "HKD", "NZD"
+        )
+        val popularCurrencyList = arrayListOf<PopularCurrency>()
+        popularCurrencyCodeList.forEach { currency ->
+            if (fromCurrencyCode != currency) addCurrencyToList(currency, popularCurrencyList)
+            else isCurrencyDuplicated = true
+
+        }
+
+        if (isCurrencyDuplicated)
+            addCurrencyToList("SEK", popularCurrencyList)
+        return popularCurrencyList
+    }
+
+    private fun addCurrencyToList(currency: String, list: ArrayList<PopularCurrency>) {
+        currencyListHashMap[currency]?.let {
+            list.add(
+                PopularCurrency(
+                    currency,
+                    it / currencyListHashMap[fromCurrencyCode]!!
+                )
+            )
+        }
+    }
+
+    private fun countConvertedValue() {
+        var fromRate = 1.0
+        currencyListHashMap[fromCurrencyCode]?.let {
+            fromRate = it
+        }
+        var toRate = 1.0
+        currencyListHashMap[toCurrencyCode]?.let {
+            toRate = it
+        }
+
+        convertedValue = String.format("%.2f", toRate / fromRate * handleAmount(amount))
+        isTextWatcherEnable = false
+        rootView.et_value.setText(convertedValue)
+
+        saveCurrencyRecordToDataBase()
+    }
+
+    private fun countAmount() {
+        var fromRate = 1.0
+        currencyListHashMap[fromCurrencyCode]?.let {
+            fromRate = it
+        }
+        var toRate = 1.0
+        currencyListHashMap[toCurrencyCode]?.let {
+            toRate = it
+        }
+
+        amount = String.format("%.2f", fromRate / toRate * handleConvertedValue(convertedValue))
+        isTextWatcherEnable = false
+        rootView.et_amount.setText(amount)
+
+        saveCurrencyRecordToDataBase()
+    }
+
+    private fun handleConvertedValue(convertedValue: String): Double =
+        if (convertedValue.isEmpty()) 0.0 else convertedValue.replace(",", "").toDouble()
+
+    private fun saveCurrencyRecordToDataBase() {
+        viewModel.saveCurrencyConvertRecord(
+            HistoryEntity(
+                fromCurrencyCode, toCurrencyCode, handleAmount(amount).toString(),
+                convertedValue, getTodayDate(), getTimeInMills()
+            )
+        )
+    }
+
+    private fun handleAmount(amount: String): Double =
+        if (amount == "0" || amount.isEmpty()) 1.0
+        else String.format("%.2f", amount.toDouble()).toDouble()
+
 
     private fun swapIndices() {
         val idTemp = fromCurrencyId
@@ -851,8 +927,10 @@ class ConverterFragment(override val layoutResourceLayout: Int = R.layout.fragme
     }
 
     private fun reloadDataToSpinners() {
-        rootView.from_selector.atIndex(fromCurrencyId)
-        rootView.to_selector.atIndex(toCurrencyId)
+        if (fromCurrencyCode != "")
+            rootView.from_selector.atIndex(fromCurrencyId)
+        if (toCurrencyCode != "")
+            rootView.to_selector.atIndex(toCurrencyId)
     }
 
     private fun clearSpinnersValues() {

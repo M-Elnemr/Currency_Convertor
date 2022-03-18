@@ -15,5 +15,9 @@
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.a1softech.currency.presentation.ui.details.DetailsFragment"
-        android:label="DetailsFragment" />
+        android:label="DetailsFragment" >
+        <argument
+            android:name="currencyPopularModel"
+            app:argType="com.a1softech.currency.domain.model.CurrencyPopularModel" />
+    </fragment>
 </navigation>

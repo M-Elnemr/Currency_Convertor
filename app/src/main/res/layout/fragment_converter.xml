@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-    </data>
+    <data></data>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -15,7 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:context=".presentation.fragments.currencyconverter.CurrencyConverterFragment">
-
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/from_input_layout"
@@ -49,22 +47,22 @@
                 android:src="@drawable/ic_baseline_compare_arrows_24"
                 android:tint="?colorPrimary"
                 app:layout_constraintBottom_toBottomOf="@+id/from_input_layout"
-                app:layout_constraintTop_toTopOf="@+id/from_input_layout"
                 app:layout_constraintEnd_toStartOf="@+id/to_input_layout"
-                app:layout_constraintStart_toEndOf="@+id/from_input_layout" />
+                app:layout_constraintStart_toEndOf="@+id/from_input_layout"
+                app:layout_constraintTop_toTopOf="@+id/from_input_layout" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/to_input_layout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/to_currency"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
+                android:hint="@string/to_currency"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_swap"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/btn_swap"
-                app:layout_constraintTop_toTopOf="@+id/btn_swap"
-                app:layout_constraintBottom_toBottomOf="@+id/btn_swap">
+                app:layout_constraintTop_toTopOf="@+id/btn_swap">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/to_selector"
@@ -91,8 +89,8 @@
                     android:id="@+id/et_amount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="1"
-                    android:inputType="numberDecimal" />
+                    android:inputType="numberDecimal"
+                    android:text="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -100,21 +98,18 @@
                 android:id="@+id/textInputLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="0dp"
-                android:layout_marginTop="16dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:hint="@string/converted_amount"
                 app:layout_constraintEnd_toEndOf="@+id/to_input_layout"
                 app:layout_constraintStart_toStartOf="@+id/to_input_layout"
                 app:layout_constraintTop_toBottomOf="@+id/to_input_layout">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_converted"
+                    android:id="@+id/et_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:editable="false"
-                    android:enabled="false"
-                    android:focusableInTouchMode="false"
-                    android:inputType="none" />
+                    android:inputType="numberDecimal" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

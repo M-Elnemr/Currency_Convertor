@@ -15,9 +15,13 @@ interface HistoryDao {
     @Query("SELECT * FROM history_table WHERE date = :date")
     fun fetchHistoricalRecordsByDate(date: String): Flow<List<HistoryEntity>>
 
+    @Query("SELECT * FROM history_table WHERE currencyFrom = :currencyCode AND date IN(:dateList)")
+    fun fetchHistoricalRecordsByCurrencyCodeAndDateList(currencyCode: String, dateList: List<String>):
+            Flow<List<HistoryEntity>>
+
     @Query("SELECT * FROM history_table")
     fun fetchAllHistoricalRecords(): Flow<List<HistoryEntity>>
 
-    @Query("DELETE FROM history_table WHERE id IN(:oldRecordIdList)")
-    suspend fun deleteOldHistoricalRecords(oldRecordIdList: List<Int>)
+    @Query("DELETE FROM history_table WHERE date NOT IN(:dateList)")
+    suspend fun deleteOldHistoricalRecords(dateList: List<String>)
 }

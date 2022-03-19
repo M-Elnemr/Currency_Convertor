@@ -1,7 +1,9 @@
 package com.a1softech.currency.data.mapper
 
+import com.a1softech.currency.data.database.history.HistoryEntity
 import com.a1softech.currency.data.dto.CurrencyListModelDto
 import com.a1softech.currency.domain.model.CurrencyListModel
+import com.a1softech.currency.domain.model.HistoryModel
 import com.a1softech.currency.domain.model.Rates
 import javax.inject.Inject
 
@@ -185,5 +187,18 @@ class Mapper @Inject constructor() {
 
             }
         )
+    }
+
+    fun historyMapper(entity: List<HistoryEntity>): List<HistoryModel>{
+        return entity.map {
+            HistoryModel(
+                it.currencyFrom,
+                it.currencyTo,
+                it.amount,
+                it.convertedValue,
+                it.date,
+                it.timeInMillis
+            )
+        }
     }
 }

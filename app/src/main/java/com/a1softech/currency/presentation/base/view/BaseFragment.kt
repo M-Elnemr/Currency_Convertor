@@ -11,11 +11,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.a1softech.currency.R
 
-abstract class BaseFragment<in T> : Fragment() where T : ViewDataBinding {
+abstract class BaseFragment<T> : Fragment() where T : ViewDataBinding {
     @get:LayoutRes
     protected abstract val layoutResourceLayout: Int
 
     lateinit var rootView: View
+    lateinit var dataBinder: T
 
     val params: HashMap<String, String> = hashMapOf()
 
@@ -32,9 +33,9 @@ abstract class BaseFragment<in T> : Fragment() where T : ViewDataBinding {
         savedInstanceState: Bundle?
     ): View? {
 
-        val dataBinder: T
         this@BaseFragment.layoutResourceLayout.let {
-            dataBinder = DataBindingUtil.inflate<T>(inflater, it, container, false)
+            dataBinder = DataBindingUtil.inflate(inflater, it, container, false)
+
             rootView = dataBinder.root
             this@BaseFragment.onFragmentCreated(dataBinder)
         }
@@ -52,7 +53,6 @@ abstract class BaseFragment<in T> : Fragment() where T : ViewDataBinding {
             it.adapter = adapter
             it.addItemDecoration(provideItemDecorator())
         }
-
     }
 
     private fun provideItemDecorator(): DividerItemDecoration {

@@ -11,6 +11,5 @@ abstract class BaseViewHolder<in T>(private val binding: ViewDataBinding) : Recy
     protected val resources = binding.root.resources
     override val containerView: View = binding.root
 
-    abstract fun getExpansionLayout(): ExpansionLayout?
     abstract fun bind(result: T)
 }

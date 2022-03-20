@@ -15,8 +15,10 @@ class LocalDataSourceImpl @Inject constructor(private val historyDao: HistoryDao
     override suspend fun fetchCurrencyHistoryList(params: HashMap<String, Any>): Flow<List<HistoryEntity>> {
         historyDao.deleteOldHistoricalRecords(params[DATE_LIST]!! as List<String>)
 
-        return  historyDao.fetchHistoricalRecordsByCurrencyCodeAndDateList(
-            params[Constants.CURRENCY_CODE]!! as String, params[DATE_LIST]!! as List<String>
+        return historyDao.fetchHistoricalRecordsByCurrencyCodeAndDateList(
+            params[Constants.BASE_CURRENCY_CODE]!! as String,
+            params[Constants.OTHER_CURRENCY_CODE]!! as String,
+            params[DATE_LIST]!! as List<String>
         )
     }
 }

@@ -136,7 +136,7 @@ class ConverterFragment(override val layoutResourceLayout: Int = R.layout.fragme
             return
         }
         val currencyPopularModel =
-            CurrencyPopularModel(fromCurrencyCode, generatePopularCurrencyList())
+            CurrencyPopularModel(fromCurrencyCode,toCurrencyCode, generatePopularCurrencyList())
         val action = ConverterFragmentDirections.actionConverterFragmentToDetailsFragment(
             currencyPopularModel
         )
@@ -147,11 +147,12 @@ class ConverterFragment(override val layoutResourceLayout: Int = R.layout.fragme
     private fun generatePopularCurrencyList(): ArrayList<PopularCurrency> {
         var isCurrencyDuplicated = false
         val popularCurrencyCodeList = arrayListOf(
-            "USD", "EUR", "JPY", "GBP", "AUD", "CAD", "CHF", "CNH", "HKD", "NZD"
+            "USD", "EUR", "JPY", "GBP", "AUD", "CAD", "CHF", "CNY", "HKD", "NZD"
         )
         val popularCurrencyList = arrayListOf<PopularCurrency>()
         popularCurrencyCodeList.forEach { currency ->
-            if (fromCurrencyCode != currency) addCurrencyToList(currency, popularCurrencyList)
+            if (fromCurrencyCode != currency)
+                addCurrencyToList(currency, popularCurrencyList)
             else isCurrencyDuplicated = true
 
         }
@@ -166,7 +167,7 @@ class ConverterFragment(override val layoutResourceLayout: Int = R.layout.fragme
             list.add(
                 PopularCurrency(
                     currency,
-                    it / currencyListHashMap[fromCurrencyCode]!!
+                    String.format("%.5f", it / currencyListHashMap[fromCurrencyCode]!!)
                 )
             )
         }

@@ -14,7 +14,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.a1softech.currency.presentation.ui.details.DetailsFragment"
+        android:name="com.a1softech.currency.presentation.ui.details.view.DetailsFragment"
         android:label="DetailsFragment" >
         <argument
             android:name="currencyPopularModel"

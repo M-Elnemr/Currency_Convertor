@@ -10,7 +10,8 @@ object Constants {
     const val HISTORY_TABLE = "history_table"
 
     //Params
-    const val CURRENCY_CODE = "currency_code"
+    const val BASE_CURRENCY_CODE = "base_currency_code"
+    const val OTHER_CURRENCY_CODE = "other_currency_code"
     const val DATE_LIST = "date_list"
 
 }

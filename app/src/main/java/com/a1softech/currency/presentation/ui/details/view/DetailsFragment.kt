@@ -104,7 +104,27 @@ class DetailsFragment(override val layoutResourceLayout: Int = R.layout.fragment
     }
 
     private fun setUpHistoryAdapter(data: List<HistoryModel>?) {
-        data?.let { historyAdapter.setDataList(data) }
+        data?.let {
+
+            historyAdapter.setDataList(handleHistoricalList(data))
+        }
+    }
+
+    private fun handleHistoricalList(data: List<HistoryModel>): ArrayList<HistoryModel> {
+        val organizedHistoricalList: ArrayList<HistoryModel> = arrayListOf()
+        var tempDate = ""
+
+        data.forEach {
+            if (it.date != tempDate) {
+                organizedHistoricalList.add(HistoryModel(date = it.date))
+                tempDate = it.date
+            }
+
+            organizedHistoricalList.add(it)
+
+        }
+
+        return organizedHistoricalList
     }
 
 }

@@ -5,6 +5,6 @@ class HistoryModel(
     var currencyTo: String = "",
     var amount: String = "1",
     var convertedValue: String = "",
-    var date: String,
-    var timeInMillis: Long
+    var date: String = "",
+    var timeInMillis: Long = 0
 )

@@ -13,5 +13,6 @@
     <string name="rate">Rate</string>
     <string name="historical_rate_format"><b>Historical rates</b> (%s, %s) during <b>3 days</b></string>
     <string name="conversion_rate_for_popular_currencies">Conversion rate for popular currencies (%s)</string>
+    <string name="value">Value</string>
 
 </resources>

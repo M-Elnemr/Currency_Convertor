@@ -9,13 +9,12 @@
 
     </data>
         <TextView
-            android:id="@+id/tv_date"
             android:layout_width="match_parent"
             android:textAlignment="center"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:padding="8dp"
             android:text="@{date}"
             android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle" />
-
 
 </layout>

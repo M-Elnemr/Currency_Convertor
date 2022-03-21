@@ -3,21 +3,19 @@ package com.a1softech.currency.presentation.ui.details.adapter.history
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
-import com.a1softech.currency.databinding.RowDateSpitterLayoutBinding
+import com.a1softech.currency.databinding.RowDateSeparatorLayoutBinding
 import com.a1softech.currency.databinding.RowHistoryLayoutBinding
-import com.a1softech.currency.databinding.RowPopularLayoutBinding
 import com.a1softech.currency.domain.model.HistoryModel
 import com.a1softech.currency.presentation.base.adapter.BaseAdapter
 import com.a1softech.currency.presentation.base.adapter.BaseViewHolder
 import com.a1softech.currency.presentation.base.adapter.DiffCallBack
-import com.a1softech.currency.presentation.ui.details.adapter.popular.PopularViewHolder
 
 class HistoryAdapter: BaseAdapter<HistoryModel>() {
 
     private val mDiffer = AsyncListDiffer(this, DiffCallBack<HistoryModel>())
 
-    var isNewDate : Boolean = true
-    var tempDate: String = ""
+    private val LAYOUT_DATE_SEPARATOR = 0
+    private val LAYOUT_HISTORY = 1
 
     override fun setDataList(dataList: List<HistoryModel>) {
         mDiffer.submitList(dataList)
@@ -36,10 +34,22 @@ class HistoryAdapter: BaseAdapter<HistoryModel>() {
         viewType: Int
     ): BaseViewHolder<HistoryModel> {
 
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = RowHistoryLayoutBinding.inflate(inflater)
+        return when(viewType){
+            LAYOUT_DATE_SEPARATOR -> {
+                val inflater = LayoutInflater.from(parent.context)
+                val binding = RowDateSeparatorLayoutBinding.inflate(inflater)
 
-        return HistoryViewHolder(binding)
+                DateSeparatorViewHolder(binding)
+            }
+            else -> {
+                val inflater = LayoutInflater.from(parent.context)
+                val binding = RowHistoryLayoutBinding.inflate(inflater)
+
+                HistoryViewHolder(binding)
+            }
+
+        }
+
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<HistoryModel>, position: Int) {
@@ -47,5 +57,9 @@ class HistoryAdapter: BaseAdapter<HistoryModel>() {
     }
 
     override fun getItemCount(): Int = mDiffer.currentList.size
+
+    override fun getItemViewType(position: Int): Int {
+        return if (mDiffer.currentList[position].convertedValue == "") LAYOUT_DATE_SEPARATOR else LAYOUT_HISTORY
+    }
 
 }

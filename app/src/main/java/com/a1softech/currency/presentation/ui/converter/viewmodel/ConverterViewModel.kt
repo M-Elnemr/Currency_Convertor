@@ -1,11 +1,11 @@
 package com.a1softech.currency.presentation.ui.converter.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.a1softech.currency.data.database.history.HistoryEntity
-import com.a1softech.currency.domain.model.CurrencyListModel
-import com.a1softech.currency.domain.usecase.FetchCurrencyListUseCase
-import com.a1softech.currency.domain.usecase.SaveCurrencyRecordUseCase
-import com.a1softech.currency.presentation.base.NetworkResult
+import com.a1softech.core.data.database.history.HistoryEntity
+import com.a1softech.core.domain.model.CurrencyListModel
+import com.a1softech.core.domain.usecase.FetchCurrencyListUseCase
+import com.a1softech.core.domain.usecase.SaveCurrencyRecordUseCase
+import com.a1softech.core.domain.result.NetworkResult
 import com.a1softech.currency.presentation.base.viewmodel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.buffer

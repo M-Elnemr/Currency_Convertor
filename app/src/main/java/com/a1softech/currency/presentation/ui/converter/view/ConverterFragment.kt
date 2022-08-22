@@ -6,12 +6,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.a1softech.currency.R
-import com.a1softech.currency.data.database.history.HistoryEntity
+import com.a1softech.core.data.database.history.HistoryEntity
+import com.a1softech.core.domain.model.CurrencyListModel
+import com.a1softech.core.domain.model.CurrencyPopularModel
+import com.a1softech.core.domain.model.PopularCurrency
+import com.a1softech.core.domain.result.NetworkResult
 import com.a1softech.currency.databinding.FragmentConverterBinding
-import com.a1softech.currency.domain.model.CurrencyListModel
-import com.a1softech.currency.domain.model.CurrencyPopularModel
-import com.a1softech.currency.domain.model.PopularCurrency
-import com.a1softech.currency.presentation.base.NetworkResult
 import com.a1softech.currency.presentation.base.view.BaseFragment
 import com.a1softech.currency.presentation.ui.converter.viewmodel.ConverterState
 import com.a1softech.currency.presentation.ui.converter.viewmodel.ConverterViewModel

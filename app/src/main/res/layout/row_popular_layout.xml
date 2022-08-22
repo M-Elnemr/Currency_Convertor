@@ -5,7 +5,7 @@
 
         <variable
             name="popularCurrency"
-            type="com.a1softech.currency.domain.model.PopularCurrency" />
+            type="com.a1softech.core.domain.model.PopularCurrency" />
 
     </data>
 

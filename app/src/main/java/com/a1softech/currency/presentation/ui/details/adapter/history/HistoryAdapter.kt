@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import com.a1softech.currency.databinding.RowDateSeparatorLayoutBinding
 import com.a1softech.currency.databinding.RowHistoryLayoutBinding
-import com.a1softech.currency.domain.model.HistoryModel
+import com.a1softech.core.domain.model.HistoryModel
 import com.a1softech.currency.presentation.base.adapter.BaseAdapter
 import com.a1softech.currency.presentation.base.adapter.BaseViewHolder
 import com.a1softech.currency.presentation.base.adapter.DiffCallBack

@@ -5,10 +5,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.a1softech.currency.R
 import com.a1softech.currency.databinding.FragmentDetailsBinding
-import com.a1softech.currency.domain.model.CurrencyPopularModel
-import com.a1softech.currency.domain.model.HistoryModel
-import com.a1softech.currency.domain.model.PopularCurrency
-import com.a1softech.currency.presentation.base.DatabaseResult
+import com.a1softech.core.domain.model.CurrencyPopularModel
+import com.a1softech.core.domain.model.HistoryModel
+import com.a1softech.core.domain.model.PopularCurrency
+import com.a1softech.core.domain.result.DatabaseResult
 import com.a1softech.currency.presentation.base.adapter.BaseAdapter
 import com.a1softech.currency.presentation.base.view.BaseFragment
 import com.a1softech.currency.presentation.ui.details.adapter.history.HistoryAdapter

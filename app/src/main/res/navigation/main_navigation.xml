@@ -18,6 +18,6 @@
         android:label="DetailsFragment" >
         <argument
             android:name="currencyPopularModel"
-            app:argType="com.a1softech.currency.domain.model.CurrencyPopularModel" />
+            app:argType="com.a1softech.core.domain.model.CurrencyPopularModel" />
     </fragment>
 </navigation>

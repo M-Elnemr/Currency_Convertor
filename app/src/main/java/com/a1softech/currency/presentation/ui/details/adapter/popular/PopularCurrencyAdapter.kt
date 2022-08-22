@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import com.a1softech.currency.databinding.RowPopularLayoutBinding
-import com.a1softech.currency.domain.model.PopularCurrency
+import com.a1softech.core.domain.model.PopularCurrency
 import com.a1softech.currency.presentation.base.adapter.BaseAdapter
 import com.a1softech.currency.presentation.base.adapter.BaseViewHolder
 import com.a1softech.currency.presentation.base.adapter.DiffCallBack

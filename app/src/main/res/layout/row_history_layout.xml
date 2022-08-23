@@ -5,7 +5,7 @@
 
         <variable
             name="history"
-            type="com.a1softech.currency.domain.model.HistoryModel" />
+            type="com.a1softech.core.domain.model.HistoryModel" />
 
     </data>
 

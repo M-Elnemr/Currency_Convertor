@@ -66,6 +66,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
 
     // Core
     implementation(Libs.core_ktx)
